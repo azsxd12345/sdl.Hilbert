@@ -1,8 +1,10 @@
 package jp.ac.titech.itpro.sdl.hilbert;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -17,10 +19,17 @@ public class MainActivity extends AppCompatActivity {
     private Button decButton;
     private Button incButton;
 
+    private final static String TAG = "MainActivity";
+    private final static String KEY_ORDER = "MainActivity.order";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        if (savedInstanceState != null) {
+            order = savedInstanceState.getInt(KEY_ORDER);
+        }
 
         orderView = findViewById(R.id.order_view);
         hilbertView = findViewById(R.id.hilbert_view);
@@ -62,5 +71,10 @@ public class MainActivity extends AppCompatActivity {
         if (BuildConfig.DEBUG && !f) {
             throw new AssertionError(message);
         }
+    }
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Log.d(TAG, "onSaveInstanceState");
+        outState.putInt(KEY_ORDER, order);
     }
 }
